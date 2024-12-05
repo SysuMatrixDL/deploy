@@ -1,0 +1,66 @@
+version: '3'
+
+services:
+  caddy:
+    image: caddy:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./caddy/data:/data  # TODO:use docker volume
+      - ./caddy/config:/etc/caddy
+
+  frontend:
+    image: ghcr.io/sysumatrixdl/frontend:master
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - og-network
+    environment:
+      - "BACKEND_SUFFIX=http://backend:8000"
+
+  backend:
+    # build:
+    #   dockerfile: dockerfile
+    image: ghcr.io/sysumatrixdl/backend:master
+    container_name: backend
+    ports:
+      - "8000:8000"
+    networks:
+      - og-network
+    depends_on:
+      - open-gauss
+
+  open-gauss:
+    image: ghcr.io/sysumatrixdl/opengauss:latest
+    container_name: open-gauss
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./sql/open-gauss/data:/opt/openGauss/data # TODO: use docker volume
+    networks:
+      - og-network
+
+  grafana:
+    image: ghcr.io/sysumatrixdl/grafana:latest
+    container_name: gf-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - "GF_SECURITY_ADMIN_PASSWORD=admin"
+    depends_on:
+      - open-gauss
+    networks:
+      - og-network
+    links:
+      - open-gauss
+
+networks:
+  og-network:
+    driver: bridge
+    ipam:
+      # 避免和校园网网段(172.12.0.0/16)冲突
+      driver: default
+      config:
+        - subnet: 192.168.114.0/24
+          gateway: 192.168.114.254
