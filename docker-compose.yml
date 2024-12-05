@@ -3,19 +3,20 @@ version: '3'
 services:
   caddy:
     image: caddy:latest
+    container_name: matrixdl-caddy
     ports:
       - "80:80"
     volumes:
-      - ./caddy/data:/data  # TODO:use docker volume
+      - ./caddy/data:/data  # TODO: use docker volume
       - ./caddy/config:/etc/caddy
+    networks:
+      - matrixdl
 
   frontend:
     image: ghcr.io/sysumatrixdl/frontend:master
     container_name: frontend
-    ports:
-      - "3000:3000"
     networks:
-      - og-network
+      - matrixdl
     environment:
       - "BACKEND_SUFFIX=http://backend:8000"
 
@@ -24,10 +25,10 @@ services:
     #   dockerfile: dockerfile
     image: ghcr.io/sysumatrixdl/backend:master
     container_name: backend
-    ports:
-      - "8000:8000"
+    environment:
+      - "BACKEND_HOST=backend"
     networks:
-      - og-network
+      - matrixdl
     depends_on:
       - open-gauss
 
@@ -35,15 +36,15 @@ services:
     image: ghcr.io/sysumatrixdl/opengauss:latest
     container_name: open-gauss
     ports:
-      - "5432:5432"
+      - "5432:5432"  # TODO: use sqlpad instead of expose port here
     volumes:
-      - ./sql/open-gauss/data:/opt/openGauss/data # TODO: use docker volume
+      - ./data:/opt/openGauss/data  # TODO: use docker volume
     networks:
-      - og-network
+      - matrixdl
 
   grafana:
     image: ghcr.io/sysumatrixdl/grafana:latest
-    container_name: gf-grafana
+    container_name: grafana
     ports:
       - "3000:3000"
     environment:
@@ -51,12 +52,12 @@ services:
     depends_on:
       - open-gauss
     networks:
-      - og-network
+      - matrixdl
     links:
       - open-gauss
 
 networks:
-  og-network:
+  matrixdl:
     driver: bridge
     ipam:
       # 避免和校园网网段(172.12.0.0/16)冲突
