@@ -1,0 +1,4 @@
+apiVersion: v2
+name: matrixdl-chart
+description: A Helm chart for deploying MatrixDL services
+version: 0.1.0

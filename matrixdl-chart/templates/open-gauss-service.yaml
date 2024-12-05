@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: open-gauss
+spec:
+  ports:
+    - port: {{ .Values.openGauss.service.port }}
+      targetPort: {{ .Values.openGauss.service.port }}
+  selector:
+    app: open-gauss

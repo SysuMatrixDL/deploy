@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: caddy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: caddy
+  template:
+    metadata:
+      labels:
+        app: caddy
+    spec:
+      containers:
+        - name: caddy
+          image: {{ .Values.caddy.image }}
+          ports:
+            - containerPort: {{ .Values.caddy.service.port }}
+          volumeMounts:
+            - mountPath: /data
+              name: caddy-data
+            - mountPath: /etc/caddy
+              name: caddy-config
+      volumes:
+        - name: caddy-data
+          hostPath:
+            path: {{ .Values.caddy.data }}
+        - name: caddy-config
+          hostPath:
+            path: {{ .Values.caddy.config }}

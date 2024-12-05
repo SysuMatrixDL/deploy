@@ -1,0 +1,26 @@
+caddy:
+  image: caddy:latest
+  service:
+    port: 80
+  data: ./caddy/data  # TODO: use Storage Class & PVC instead of mount here
+  config: ./caddy/config
+
+frontend:
+  image: ghcr.io/sysumatrixdl/frontend:master
+  backend_suffix: "http://backend:8000"
+
+backend:
+  image: ghcr.io/sysumatrixdl/backend:master
+  backend_host: "backend"
+
+openGauss:
+  image: ghcr.io/sysumatrixdl/opengauss:latest
+  service:  # TODO: use sqlpad instead of expose port here
+    port: 5432
+  dataPath: ./data  # TODO: use Storage Class & PVC instead of mount here
+
+grafana:
+  image: ghcr.io/sysumatrixdl/grafana:latest
+  admin_password: "admin"
+  service:
+    port: 3000

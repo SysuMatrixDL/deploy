@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: open-gauss
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: open-gauss
+  template:
+    metadata:
+      labels:
+        app: open-gauss
+    spec:
+      containers:
+        - name: open-gauss
+          image: {{ .Values.openGauss.image }}
+          ports:
+            - containerPort: {{ .Values.openGauss.service.port }}
+          volumeMounts:
+            - mountPath: /opt/openGauss/data
+              name: open-gauss-data
+      volumes:
+        - name: open-gauss-data
+          hostPath:
+            path: {{ .Values.openGauss.dataPath }}

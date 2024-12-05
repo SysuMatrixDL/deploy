@@ -21,8 +21,6 @@ services:
       - "BACKEND_SUFFIX=http://backend:8000"
 
   backend:
-    # build:
-    #   dockerfile: dockerfile
     image: ghcr.io/sysumatrixdl/backend:master
     container_name: backend
     environment:
