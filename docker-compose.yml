@@ -23,6 +23,8 @@ services:
   backend:
     image: ghcr.io/sysumatrixdl/backend:latest
     container_name: backend
+    volumes:
+      - ./backend:/app/tmp
     environment:
       - "BACKEND_HOST=backend"
       - "BACKEND_PORT=8000"
