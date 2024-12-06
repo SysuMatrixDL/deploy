@@ -13,7 +13,7 @@ services:
       - matrixdl
 
   frontend:
-    image: ghcr.io/sysumatrixdl/frontend:master
+    image: ghcr.io/sysumatrixdl/frontend:latest
     container_name: frontend
     networks:
       - matrixdl
@@ -21,10 +21,13 @@ services:
       - "BACKEND_SUFFIX=http://backend:8000"
 
   backend:
-    image: ghcr.io/sysumatrixdl/backend:master
+    image: ghcr.io/sysumatrixdl/backend:latest
     container_name: backend
     environment:
       - "BACKEND_HOST=backend"
+      - "BACKEND_PORT=8000"
+      - "MATRIXDL_ENVIROMENT=PRODUCTION"
+      # - "MATRIXDL_WORKER=4"
     networks:
       - matrixdl
     depends_on:

@@ -6,11 +6,11 @@ caddy:
   config: ./caddy/config
 
 frontend:
-  image: ghcr.io/sysumatrixdl/frontend:master
+  image: ghcr.io/sysumatrixdl/frontend:latest
   backend_suffix: "http://backend:8000"
 
 backend:
-  image: ghcr.io/sysumatrixdl/backend:master
+  image: ghcr.io/sysumatrixdl/backend:latest
   backend_host: "backend"
 
 openGauss:
