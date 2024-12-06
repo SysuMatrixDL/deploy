@@ -17,4 +17,10 @@ spec:
           image: {{ .Values.backend.image }}
           env:
             - name: BACKEND_HOST
-              value: {{ .Values.backend.backend_host }}
+              value: {{ .Values.backend.host }}
+            - name: BACKEND_PORT
+              value: {{ .Values.backend.port }}
+            - name: MATRIXDL_ENVIROMENT
+              value: {{ .Values.backend.enviroment }}
+            - name: MATRIXDL_WORKER
+              value: {{ .Values.backend.worker }}

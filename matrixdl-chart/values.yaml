@@ -11,7 +11,10 @@ frontend:
 
 backend:
   image: ghcr.io/sysumatrixdl/backend:latest
-  backend_host: "backend"
+  host: "backend"
+  port: "8000"
+  enviroment: "PRODUCTION"
+  # worker: "4"
 
 openGauss:
   image: ghcr.io/sysumatrixdl/opengauss:latest
