@@ -27,6 +27,7 @@ services:
     container_name: backend
     volumes:
       - ./backend:/app/tmp
+      - /home/matrixdl/.ssh:/root/.ssh
     environment:
       - "BACKEND_HOST=backend"
       - "BACKEND_PORT=8000"

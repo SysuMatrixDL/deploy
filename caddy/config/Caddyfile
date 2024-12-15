@@ -1,6 +1,10 @@
 :80 {
+    reverse_proxy /images backend:8000
+    reverse_proxy /devices backend:8000
+    reverse_proxy /containers backend:8000
     reverse_proxy /api/* backend:8000
     reverse_proxy /images/* backend:8000
-    reverse_proxy /container/* backend:8000
+    reverse_proxy /devices/* backend:8000
+    reverse_proxy /containers/* backend:8000
     reverse_proxy /* frontend:3000
 }
