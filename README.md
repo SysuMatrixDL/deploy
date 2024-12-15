@@ -2,9 +2,9 @@
 
 ## Docker Compose
 
-需要在宿主机上执行 top 程序监控宿主机资源情况, 这个程序不该在容器中执行, 所以这里用脚本配合 docker compose 实现:
-- `start.sh`
-- `shutdown.sh` 
+```shell
+docker-compose up -d
+```
 
 ## k8s
 

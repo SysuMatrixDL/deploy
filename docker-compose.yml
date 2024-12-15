@@ -18,7 +18,9 @@ services:
     networks:
       - matrixdl
     environment:
+      - "NODE_ENV=development"  # https://github.com/resend/react-email/issues/1790
       - "BACKEND_SUFFIX=http://backend:8000"
+      - "GRAFANA_URL=https://matrixdl.fuusen.space/public-dashboards/5192664c23254fd3ba56f3ae1701a1a0?orgId=1&refresh=5s"
 
   backend:
     image: ghcr.io/sysumatrixdl/backend:latest
